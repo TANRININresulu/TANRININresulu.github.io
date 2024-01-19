@@ -1,7 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Renklendirme ve Ebced Sayı Değeri Hesaplama</title>
+    <style>
+        /* Sayfa tasarımı için CSS kodları */
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            font-family: Arial, sans-serif;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .input-area {
+            width: 100%;
+            height: 200px;
+            border: 1px solid black;
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 18px;
+            direction: rtl; /* Arapça metin için sağdan sola yazma yönü */
+        }
+
+        .button {
+            width: 100%;
+            height: 40px;
+            margin-top: 20px;
+            background-color: #3498db;
+            color: white;
+            font-size: 18px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+
+        .table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        .table td {
+            width: 50%;
+            height: 40px;
+            border: 1px solid black;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .colored {
+            background-color: yellow; /* Renklendirme için arkaplan rengi */
+        }
+    </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <div class="container">
+        <div class="title">Renklendirme ve Ebced Sayı Değeri Hesaplama</div>
+        <div contenteditable="true" class="input-area" id="input-area">Buraya Arapça metin giriniz</div>
+        <button class="button" id="button" onclick="renklendir()">Renklendir</button>
+        <table class="table" id="table"></table>
+    </div>
+    <script>
+        // Ebced sayı değerleri için bir nesne tanımlıyoruz
+        var ebced = {
+            "ا": 1,
+            "ب": 2,
+            "ج": 3,
+            "د": 4,
+            "ه": 5,
+            "و": 6,
+            "ز": 7,
+            "ح": 8,
+            "ط": 9,
+            "ي": 10,
+            "ك": 20,
+            "ل": 30,
+            "م": 40,
+            "ن": 50,
+            "س": 60,
+            "ع": 70,
+            "ف": 80,
+            "ص": 90,
+            "ق": 100,
+            "ر": 200,
+            "ش": 300,
+            "ت": 400,
+            "ث": 500,
+            "خ": 600,
+            "ذ": 700,
+            "ض": 800,
+            "ظ": 900,
+            "غ": 1000
+        };
+
+        // Renklendirme fonksiyonunu tanımlıyoruz
+        function renklendir() {
+            // Girdi alanındaki metni alıyoruz
+            var metin = document.getElementById("input-area").innerText;
+            // Metni harflere ayırıyoruz
+            var harfler = metin.split("");
+            // Çıktı tablosunu temizliyoruz
+            document.getElementById("table").innerHTML = "";
+            // Toplam sayı değerini sıfırlıyoruz
+            var toplam = 0;
+            // Harfleri tek tek döngüye alıyoruz
+            for (var i = 0; i < harfler.length; i++) {
+                // Harfin ebced sayı değerini buluyoruz
+                var sayi = ebced[harfler[i]] || 0;
+                // Toplam sayı değerine ekliyoruz
+                toplam += sayi;
+                // Harfin sıra numarası 19'un katı ise
+                if ((i + 1) % 19 == 0) {
+                    // Harfi ve arkaplanını renklendiriyoruz
+                    harfler[i] = "<span class='colored'>" + harfler[i] + "</span>";
+                    // Harfi ve sayı değerini tabloya ekliyoruz
+                    document.getElementById("table").innerHTML += "<tr><td class='colored'>" + harfler[i] + "</td><td class='colored'>" + sayi + "</td></tr>";
+                } else {
+                    // Harfi ve sayı değerini tabloya ekliyoruz
+                    document.getElementById("table").innerHTML += "<tr><td>" + harfler[i] + "</td><td>" + sayi + "</td></tr>";
+                }
+            }
+            // Toplam sayı değerini tabloya ekliyoruz
+            document.getElementById("table").innerHTML += "<tr><td colspan='2'>Toplam: " + toplam + "</td></tr>";
+            // Metni renklendirilmiş harflerle güncelliyoruz
+            document.getElementById("input-area").innerHTML = harfler.join("");
+        }
+    </script>
 </body>
 </html>
